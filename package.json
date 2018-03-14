@@ -1,6 +1,6 @@
 {
   "name": "ember-get-all-model",
-  "version": "0.0.0-alpha0.0.1",
+  "version": "0.0.0-alpha0.0.11",
   "description": "The default blueprint for ember-cli addons.",
   "keywords": [
     "ember-addon"
@@ -18,7 +18,8 @@
     "test": "ember try:each"
   },
   "dependencies": {
-    "ember-cli-babel": "^6.6.0"
+    "ember-cli-babel": "^6.6.0",
+    "ember-power-select": "^2.0.0-beta.3"
   },
   "devDependencies": {
     "broccoli-asset-rev": "^2.4.5",
