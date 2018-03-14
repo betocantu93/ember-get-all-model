@@ -1,12 +1,22 @@
 {
   "name": "ember-get-all-model",
   "version": "0.0.0-alpha0.0.12",
-  "description": "The default blueprint for ember-cli addons.",
+  "description": "Shortcut for get all locally or remotely and select using modelName",
   "keywords": [
-    "ember-addon"
+    "ember-addon",
+    "utils",
+    "productivity",
+    "select",
+    "picker"
   ],
   "license": "MIT",
-  "author": "",
+  "author": {
+    "name": "Beto Cantu",
+    "email": "betocantu93@gmail.com"
+  },
+  "bugs": {
+    "url": "https://github.com/betocantu93/ember-get-all-model/issues"
+  },
   "directories": {
     "doc": "doc",
     "test": "tests"

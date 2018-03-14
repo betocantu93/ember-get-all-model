@@ -1,7 +1,7 @@
 # ember-get-all-model
 
 
-This is a shortcut for get all locally or remotely using `modelName`, if you use block form, the objects will be yielded, if not, a select-autocomplete using ember-power-select addon will be placed. Feel free to contribute. For further details, check github.com/betocantu93/ember-model-get-all
+This is a shortcut for get all locally or remotely using `modelName` and select, if you use block form, the objects will be yielded, if not, a select-autocomplete using ember-power-select addon will be placed. Feel free to contribute. For further details, check github.com/betocantu93/ember-model-get-all
 
 ## DEMO
 [Ember-get-all-model DEMO](http://albertocantug.com/ember-get-all-model/)
