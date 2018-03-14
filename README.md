@@ -3,6 +3,7 @@
 
 This is a shortcut for get all locally or remotely using `modelName` and select, if you use block form, the objects will be yielded, if not, a select-autocomplete using ember-power-select addon will be placed. Feel free to contribute.
 
+
 ## DEMO
 [Ember-get-all-model DEMO](http://albertocantug.com/ember-get-all-model/)
 

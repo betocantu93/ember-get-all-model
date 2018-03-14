@@ -1,6 +1,6 @@
 {
   "name": "ember-get-all-model",
-  "version": "0.0.0-alpha0.0.14",
+  "version": "0.0.0-alpha0.0.15",
   "description": "Shortcut for get all locally or remotely and select using modelName",
   "keywords": [
     "ember-addon",
