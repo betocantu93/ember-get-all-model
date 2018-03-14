@@ -1,0 +1,1 @@
+export { default } from 'ember-get-all-model/components/get-all-model';

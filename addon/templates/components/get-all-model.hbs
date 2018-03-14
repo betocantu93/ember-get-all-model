@@ -1,0 +1,31 @@
+{{#if (has-block)}}
+
+  {{#each objects as |object|}}
+    {{yield this object}}
+  {{else}}
+    {{yield this to="inverse"}}
+  {{/each}}
+
+{{else}}
+
+  {{#if (eq template "select-autocomplete")}}
+
+    {{#power-select
+      disabled=isLoading
+      options=objects
+      selected=selectedObject
+      allowClear=allowClear
+      placeholder=placeholder
+      label=label
+      renderInPlace=true
+      searchField=searchField
+      onchange=(action "select")
+      as |object|
+    }}
+      {{object.name}}
+    {{/power-select}}
+
+  {{/if}}
+
+
+{{/if}}

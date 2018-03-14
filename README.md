@@ -1,26 +1,49 @@
 # ember-get-all-model
 
-This README outlines the details of collaborating on this Ember addon.
+
+This is a shortcut for get all locally or remotely using `modelName`, if you use block form, the objects will be yielded, if not, a select-autocomplete using ember-power-select addon will be placed. Feel free to contribute. For further details, check github.com/betocantu93/ember-model-get-all
+
+## DEMO
+[Ember-get-all-model DEMO](http://albertocantug.com/ember-get-all-model/)
 
 ## Installation
 
-* `git clone <repository-url>` this repository
-* `cd ember-get-all-model`
-* `npm install`
+    $ ember install ember-get-all-model
 
-## Running
+## Properties
 
-* `ember serve`
-* Visit your app at [http://localhost:4200](http://localhost:4200).
+  `reload`: Boolean, tells the component to query or peekAll using the modelName
+  
+  `remoteFilters`: Object, it will be used in the query. Example
+       
+     remotefilters: {
+        scope: 5,
+        name: "Tomas"
+     }
+   
+  `include`: String, will be used in the query
+  
+  `filterFunc`: Function, callback to filter function you can provide to be used for the results of peekAll(`modelName`), for every record returned from peekAll `filterFunc` will be called with (object, objects) as params, just return a boolean and the objects will be filtered.
+  
 
-## Running Tests
+## Usage
 
-* `npm test` (Runs `ember try:each` to test your addon against multiple Ember versions)
-* `ember test`
-* `ember test --server`
+Without block
 
-## Building
+    {{get-all-entity
+      modelName="user"
+      placeholder="Select a user"
+      reload=false //change to true to a force reload, making a remote to query(modelName)
+      onSelect=(action (mut selectedUser))
+    }}
 
-* `ember build`
+Block form
 
-For more information on using ember-cli, visit [https://ember-cli.com/](https://ember-cli.com/).
+    {{#get-all-entity
+      modelName="image"
+      onSelect=(action (mut selectedImage))
+      as |component object|}}
+    
+      <img class="flex-none" {{action "select" object target=component}} src={{object.url}}/>
+    
+    {{/get-all-entity}}
