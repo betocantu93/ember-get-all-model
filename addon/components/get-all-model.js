@@ -30,7 +30,7 @@ export default Component.extend({
   /*
     The result of peekAll or query
   */
-  objects: A([]),
+  objects: null,
 
   /*
 
