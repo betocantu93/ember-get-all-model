@@ -14,17 +14,35 @@ This is a shortcut for get all locally or remotely using `modelName` and select,
 ## Properties
 
   `reload`: Boolean, tells the component to query or peekAll using the modelName
+  
+  `required`: Boolean, if true, the component will bubble onValidChange with true/false
+  
+  `customValidation`: Function, will be bubbled when selectedObject changes, with (object) as params use it for any other custom validation, just return a bool.
 
-  `remoteFilters`: Object, it will be used in the query. Example
+  `filters`: Object, it will be used in the query. Example
 
-     remotefilters: {
+     filters: {
         scope: 5,
         name: "Tomas"
      }
-
+   
+   or you can simple use the hash helper in template like
+      
+      {{#get-all-model
+        modelName="user"
+        filters=(hash name="Alberto" include="city,car")
+        onSelect=(action (mut selectedUser))
+       }}
+  
+  will result in 
+    
+    /users?filter[name]=Alberto&include=city,car
+  
   `include`: String, will be used in the query
 
-  `filterFunc`: Function, callback to filter function you can provide to be used for the results of peekAll(`modelName`), for every record returned from peekAll `filterFunc` will be called with (object, objects) as params, just return a boolean and the objects will be filtered.
+  `filterFunc`: Function, callback function which will be called with the results from peekAll(`modelName`), for every record `filterFunc` will be called with (object, objects) as params, just return a boolean and the objects will be filtered. 
+  
+  **Notice this is not the matcher function used by ember-power-select** it's just a preliminary function for cleaning the set of peekAll
 
 
 ## Usage
@@ -33,6 +51,8 @@ Without block
 
     {{get-all-model
       modelName="user"
+      required=true 
+      onValidChange=(action (mut isUserValid))
       placeholder="Select a user"
       reload=false //change to true to a force reload, making a remote to query(modelName)
       onSelect=(action (mut selectedUser))

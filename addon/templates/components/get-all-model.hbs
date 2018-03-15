@@ -11,7 +11,7 @@
   {{#if (eq template "select-autocomplete")}}
 
     {{#power-select
-      disabled=isLoading
+      disabled=(or isLoading disabled)
       options=objects
       selected=selectedObject
       allowClear=allowClear

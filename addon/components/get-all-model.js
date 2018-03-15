@@ -21,20 +21,16 @@ export default Component.extend({
   */
   modelName: null,
 
-  /*
-    Private filters for remote
-  */
-  _filters: {},
 
   /*
     Remote filters to append
   */
-  remoteFilters: {},
+  filters: {},
 
   /*
     The result of peekAll or query
   */
-  objects: null,
+  objects: A([]),
 
   /*
 
@@ -59,7 +55,6 @@ export default Component.extend({
   noMatchesMessage: "No results found",
   isInvalid: false,
 
-  _lastModelName: null,
   /*
     Key to search and filter
   */
@@ -90,24 +85,63 @@ export default Component.extend({
     return true;
   },
 
-  didReceiveAttrs(){
-    this._super(...arguments);
-    let { _lastModelName, modelName } = getProperties(this, '_lastModelName', 'modelName');
+  /*
+  * Reset if modelChanges or filters change
+  * */
+  modelNameChanged: observer('modelName', function(){
+    this._reset();
+    get(this, 'onSelect')(null);
+    this._load();
+  }),
 
-    if( _lastModelName !== modelName ){
-      this._reset();
-      this._load();
+  filtersChange: observer('filters', function(){
+
+    let required = get(this, 'required');
+
+    this._reset();
+
+    get(this, 'onSelect')(null);
+
+    if(required) {
+      get(this, 'onValidChange')(false);
+      set(this, 'isInvalid', true);
+    } else {
+      get(this, 'onValidChange')(true);
     }
 
-  },
+    this._load();
+
+  }),
+
+  reloadChanged: observer('reload', function(){
+
+    let required = get(this, 'required');
+
+    this._reset();
+
+    get(this, 'onSelect')(null);
+
+    if(required) {
+      get(this, 'onValidChange')(false);
+      set(this, 'isInvalid', true);
+    } else {
+      get(this, 'onValidChange')(true);
+    }
+
+    this._load();
+
+  }),
+
+  searchEnabled: computed('objects.[]', function(){
+    return get(this, 'objects.length');
+  }),
 
   _reset(){
     setProperties(this, {
-      _lastModelName: get(this, 'modelName'),
       selectedObject: null
     });
-    get(this, 'onSelect')();
   },
+
   /*
     Observer to validate every change on selectedObject
   */
@@ -116,14 +150,18 @@ export default Component.extend({
     let { required, selectedObject, customValidation } = getProperties(this, 'required', 'selectedObject', 'customValidation');
 
     if(required) {
-       get(this, 'onValidChange')(customValidation(selectedObject) && !isBlank(selectedObject));
-       set(this, 'isInvalid', isBlank(selectedObject));
+      get(this, 'onValidChange')(customValidation(selectedObject) && !isBlank(selectedObject));
+      set(this, 'isInvalid', isBlank(selectedObject));
     } else {
       get(this, 'onValidChange')(true);
     }
 
   }),
 
+  didInsertElement(){
+    this._super(...arguments);
+    this._load();
+  },
   actions: {
 
     /*
@@ -133,7 +171,6 @@ export default Component.extend({
       set(this, 'selectedObject', object);
       get(this, 'onSelect')(object);
     }
-
 
   },
 
@@ -146,12 +183,11 @@ export default Component.extend({
     let {
       reload,
       modelName,
-      _filters,
-      remoteFilters,
+      filters,
       filterFunc,
       store,
       include
-    } = getProperties(this, 'reload', 'modelName', '_filters', 'remoteFilters', 'filterFunc', 'store', 'include');
+    } = getProperties(this, 'reload', 'modelName', 'filters', 'filterFunc', 'store', 'include');
 
     assert('Must pass an modelName', modelName);
 
@@ -159,15 +195,15 @@ export default Component.extend({
 
       set(this, 'isLoading', true);
 
-      let filters = {
-        filter: Object.assign(_filters, {remoteFilters}),
+      let _filters = {
+        filter: filters,
       };
 
       if(include) {
-        Object.assign(filters, { include });
+        Object.assign(_filters, include);
       }
 
-      get(this, 'store').query(modelName, filters).then((results) => {
+      get(this, 'store').query(modelName, _filters).then((results) => {
 
         setProperties(this, {
           isLoading: false,
@@ -180,8 +216,7 @@ export default Component.extend({
 
     } else {
 
-
-      let objects = get(this, 'store').peekAll(modelName);
+      let objects = store.peekAll(modelName);
 
       if(typeof filterFunc === 'function') {
 
@@ -195,6 +230,7 @@ export default Component.extend({
 
       set(this, 'isLoading', false);
     }
+
 
   },
 });
