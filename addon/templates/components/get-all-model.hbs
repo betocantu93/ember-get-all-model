@@ -64,10 +64,10 @@
       onchange=(action "select")
       as |object|
     }}
-      {{yield this object}}
+      {{yield object}}
     {{else}}
       {{#if (hasBlock "inverse")}}
-        {{yield this to="inverse"}}
+        {{yield to="inverse"}}
       {{else}}
         {{noMatchesMessage}}
       {{/if}}
