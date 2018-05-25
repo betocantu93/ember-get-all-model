@@ -3,7 +3,7 @@
 
 module.exports = {
   name: 'ember-get-all-model',
-
+  
   contentFor: function(type, config) {
     if (type === 'body-footer') {
       var emberBasicDropdown = this.addons.filter(function(addon) {

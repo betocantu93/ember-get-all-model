@@ -9,12 +9,15 @@ export default Component.extend({
   layout,
   tagName: '',
   store: service(),
+  publicAPI: null,
 
+  noMatchesMessage: 'No results found',
   /*
     Force a server reload
   */
   reload: true,
-  template: "select-autocomplete", //defaults to show the template of a select/autocomplete field
+
+  customRendering: false, //defaults to show the template of a select/autocomplete field
 
   /*
     Entity to peekAll or query from

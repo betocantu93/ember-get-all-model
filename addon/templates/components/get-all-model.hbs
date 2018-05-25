@@ -1,4 +1,4 @@
-{{#if (has-block)}}
+{{#if customRendering }}
 
   {{#each objects as |object|}}
     {{yield this object}}
@@ -6,11 +6,12 @@
     {{yield this to="inverse"}}
   {{/each}}
 
-{{else}}
+  {{else}}
 
-  {{#if (eq template "select-autocomplete")}}
+
 
     {{#power-select
+      registerAPI=registerAPI
       disabled=(or isLoading disabled)
       options=objects
       selected=selectedObject
@@ -63,10 +64,13 @@
       onchange=(action "select")
       as |object|
     }}
-      {{object.name}}
+      {{yield this object}}
+    {{else}}
+      {{#if (hasBlock "inverse")}}
+        {{yield this to="inverse"}}
+      {{else}}
+        {{noMatchesMessage}}
+      {{/if}}
     {{/power-select}}
-
-  {{/if}}
-
 
 {{/if}}
